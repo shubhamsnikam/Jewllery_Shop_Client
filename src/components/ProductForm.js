@@ -318,9 +318,6 @@ const ProductForm = () => {
           <div className="mb-3"><label className="form-label">Name</label><input type="text" className="form-control" name="name" value={editForm.name} onChange={handleEditChange} /></div>
           <div className="mb-3"><label className="form-label">Quantity</label><input type="number" className="form-control" name="quantity" value={editForm.quantity} onChange={handleEditChange} /></div>
           <div className="mb-3"><label className="form-label">Price</label><input type="number" className="form-control" name="price" value={editForm.price} onChange={handleEditChange} /></div>
-          <div className="mb-3"><label className="form-label">Weight</label><input type="text" className="form-control" name="weight" value={editForm.weight} onChange={handleEditChange} /></div>
-          <div className="mb-3"><label className="form-label">Expiry Date</label><input type="date" className="form-control" name="expiryDate" value={editForm.expiryDate} onChange={handleEditChange} /></div>
-          <div className="mb-3"><label className="form-label">Manufacturing Date</label><input type="date" className="form-control" name="manufacturingDate" value={editForm.manufacturingDate} onChange={handleEditChange} /></div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
