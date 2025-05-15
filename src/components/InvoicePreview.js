@@ -19,9 +19,10 @@ const InvoicePreview = forwardRef(({ customer = {}, saleItems = [], products = [
       {/* Company Header */}
       <div className="text-center mb-4">
 
-        <h3 className="mt-2">इंद्रायणी बेकर्स, स्वीट्स अँड केक्स </h3>
-        <p> Indrayani Backers Khanapur Road Vita 415311 | Contact: +91 91460 06006</p>
-        <p> :9920445447 / 9987164165 </p>
+       <h3 className="mt-2"> अलंकृत ज्वेल हब </h3>
+        <p> Address: Shop No.4, Arthav CHS, Plot No.C-5, Sector 20, Gavdevi Chowk, Near Bhagat School, Neral, Navi Mumbai.  </p>
+        <p> Contact: 9920445447 / 9987164165 </p>
+
         <hr />
       </div>
 
@@ -63,11 +64,7 @@ const InvoicePreview = forwardRef(({ customer = {}, saleItems = [], products = [
         </tbody>
       </table>
       {/* Footer with QR Code */}
-      <div className="text-center mt-4">
-        <p><strong>Scan to Pay:</strong></p>
-        <img src={qrCodeBase64} alt="QR Code for Payment" style={{ height: '180px' }} />
-        <p className="mt-2">Google Pay / PhonePe / Paytm UPI ID: 9860346969@okbizaxis</p>
-      </div>
+     
 
       {/* Spacer */}
       <div style={{ flexGrow: 1 }} />
