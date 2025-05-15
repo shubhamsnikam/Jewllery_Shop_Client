@@ -207,7 +207,7 @@ const ProductForm = () => {
               name="name"
               value={form.name}
               onChange={handleChange}
-              placeholder="e.g. Choco Muffin"
+              placeholder="e.g. Gold Ring"
               required
             />
           </div>
