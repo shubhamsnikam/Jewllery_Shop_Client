@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Navbar = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-    <Link className="navbar-brand" to="/">  इंद्रायणी बेकर्स </Link>
+    <Link className="navbar-brand" to="/"> अलंकृत </Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
     </button>
@@ -24,6 +24,9 @@ const Navbar = () => (
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/ledger">Ledger</Link>
+        </li>
+   <li className="nav-item px-2">
+          <NavLink className="nav-link" to="/help">Help</NavLink>
         </li>
       </ul>
     </div>
