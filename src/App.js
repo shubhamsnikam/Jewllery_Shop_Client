@@ -9,6 +9,7 @@ import Ledger from './components/Ledger';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './components/Dashboard';
+import Help from './components/Help';
 
 
 function App() {
@@ -23,11 +24,12 @@ function App() {
         <Route path="/customers" element={<CustomerForm />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/ledger" element={<Ledger />} />
+        <Route path="/help" element={<Help/>} />
       </Routes>
 
       <ToastContainer position="top-center" autoClose={2000} />
-      
-    </Router>     
+
+    </Router>
 
   );
 }
