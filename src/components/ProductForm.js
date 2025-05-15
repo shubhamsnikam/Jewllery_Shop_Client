@@ -238,40 +238,7 @@ const ProductForm = () => {
             />
           </div>
 
-          {/* Additional Info */}
-          <div className="col-md-4">
-            <label className="form-label">Weight</label>
-            <input
-              type="text"
-              className="form-control"
-              name="weight"
-              value={form.weight}
-              onChange={handleChange}
-              placeholder="e.g. 250g"
-            />
-          </div>
-
-          <div className="col-md-4">
-            <label className="form-label">Manufacturing Date</label>
-            <input
-              type="date"
-              className="form-control"
-              name="manufacturingDate"
-              value={form.manufacturingDate}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="col-md-4">
-            <label className="form-label">Expiry Date</label>
-            <input
-              type="date"
-              className="form-control"
-              name="expiryDate"
-              value={form.expiryDate}
-              onChange={handleChange}
-            />
-          </div>
+        
 
           {/* Submit Button */}
           <div className="col-12 text-end">
@@ -317,7 +284,6 @@ const ProductForm = () => {
               <th>Name</th>
               <th>Quantity</th>
               <th>Price (₹)</th>
-              <th>Weight</th>
               <th style={{ width: '140px' }}>Barcode</th>
               <th>Actions</th>
             </tr>
@@ -328,7 +294,6 @@ const ProductForm = () => {
                 <td>{p.name}</td>
                 <td>{p.quantity}</td>
                 <td>{p.price}</td>
-                <td>{p.weight}</td>
                 <td>
                   <canvas ref={(el) => (barcodeRefs.current[p._id] = el)} style={{ maxWidth: '100%', transform: 'scale(0.85)', transformOrigin: 'left center' }} />
                   <button className="btn btn-outline-success btn-sm mt-1" onClick={() => generatePDFWithBarcodes(p)}>📄 PDF</button>
