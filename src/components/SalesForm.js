@@ -98,7 +98,7 @@ const SalesForm = () => {
 
   const handleAddLedger = async () => {
     try {
-      await axios.post('/api/ledger', {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/ledger`, {
         sale: savedSaleId,
         customer: customerId,
         total: totalAmount,
