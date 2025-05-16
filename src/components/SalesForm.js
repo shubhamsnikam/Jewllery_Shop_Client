@@ -82,7 +82,7 @@ const SalesForm = () => {
         setCustomerId(finalCustomerId);
       }
 
-      const saleRes = await axios.post('${process.env.REACT_APP_BACKEND_URL}/api/sales', {
+      const saleRes = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/sales`, {
         customer: finalCustomerId,
         items: saleItems
       });
