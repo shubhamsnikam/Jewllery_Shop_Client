@@ -24,7 +24,7 @@ const SalesForm = () => {
     const fetchData = async () => {
       try {
         const res1 = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/products`);
-        const res2 = await axios.get('${process.env.REACT_APP_BACKEND_URL}/api/customers');
+        const res2 = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/customers`);
         setProducts(res1.data);
         setCustomers(res2.data);
       } catch (err) {
