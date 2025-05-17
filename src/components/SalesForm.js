@@ -23,8 +23,8 @@ const SalesForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res1 = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/products`);
-        const res2 = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/customers`);
+        const res1 = await axios.get(`/api/products`);
+        const res2 = await axios.get(`/api/customers`);
         setProducts(res1.data);
         setCustomers(res2.data);
       } catch (err) {
@@ -36,26 +36,34 @@ const SalesForm = () => {
   }, []);
 
   useEffect(() => {
-    if (saleItems.length > 0 || customerId) {
-      setInvoiceNo('#' + Math.floor(100000 + Math.random() * 900000));
-      const total = saleItems.reduce((acc, item) => {
-        const product = products.find(p => p._id === item.product);
-        return acc + (product ? product.price * item.quantity : 0);
-      }, 0);
-      setTotalAmount(total);
-    }
-  }, [saleItems, customerId, products]);
+    const total = saleItems.reduce((acc, item) => {
+      const product = products.find(p => p._id === item.product);
+      const price = product ? product.price : 0;
+      const discount = item.discount || 0;
+      return acc + ((price * item.quantity) - discount);
+    }, 0);
+    setTotalAmount(total);
+  }, [saleItems, products]);
+
+
 
   const addItem = (productId) => {
     const existing = saleItems.find(item => item.product === productId);
     if (existing) {
       setSaleItems(saleItems.map(item =>
-        item.product === productId ? { ...item, quantity: item.quantity + 1 } : item
+        item.product === productId
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       ));
     } else {
-      setSaleItems([...saleItems, { product: productId, quantity: 1 }]);
+      setSaleItems([...saleItems, {
+        product: productId,
+        quantity: 1,
+        discount: 0 // initialize discount
+      }]);
     }
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,7 +80,7 @@ const SalesForm = () => {
       let finalCustomerId = customerId;
 
       if (!finalCustomerId && newCustomerName.trim() && newCustomerAddress.trim() && newCustomerContact.trim()) {
-        const newCustomer = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/customers`, {
+        const newCustomer = await axios.post(`api/customers`, {
           name: newCustomerName.trim(),
           address: newCustomerAddress.trim(),
           contact: newCustomerContact.trim()
@@ -82,7 +90,7 @@ const SalesForm = () => {
         setCustomerId(finalCustomerId);
       }
 
-      const saleRes = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/sales`, {
+      const saleRes = await axios.post(`api/sales`, {
         customer: finalCustomerId,
         items: saleItems
       });
@@ -98,7 +106,7 @@ const SalesForm = () => {
 
   const handleAddLedger = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/ledger`, {
+      await axios.post(`/api/ledger`, {
         sale: savedSaleId,
         customer: customerId,
         total: totalAmount,
@@ -116,14 +124,14 @@ const SalesForm = () => {
 
   const handleMarkAsPaid = async () => {
     try {
-      const ledgerRes = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/ledger`, {
+      const ledgerRes = await axios.post(`/api/ledger`, {
         sale: savedSaleId,
         customer: customerId,
         total: totalAmount,
         products: saleItems.map(item => item.product),
       });
 
-      await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/ledger/${ledgerRes.data._id}/pay`);
+      await axios.patch(`api/ledger/${ledgerRes.data._id}/pay`);
       resetForm();
       toast.success('Ledger Added & Marked as Paid');
     } catch (err) {
@@ -160,10 +168,10 @@ const SalesForm = () => {
   const selectedCustomer = customerId
     ? customers.find(c => c._id === customerId)
     : {
-        name: newCustomerName,
-        contact: newCustomerContact,
-        address: newCustomerAddress,
-      };
+      name: newCustomerName,
+      contact: newCustomerContact,
+      address: newCustomerAddress,
+    };
 
   return (
     <div className="container mt-4">
@@ -242,14 +250,19 @@ const SalesForm = () => {
                   <th>Product</th>
                   <th>Qty</th>
                   <th>Rate</th>
+                  <th>Discount</th>
                   <th>Total</th>
                   <th>Action</th>
+
                 </tr>
               </thead>
+              
               <tbody>
                 {saleItems.map((item, index) => {
                   const product = products.find(p => p._id === item.product);
                   if (!product) return null;
+
+                  const itemTotal = (product.price * item.quantity) - (item.discount || 0);
 
                   return (
                     <tr key={product._id}>
@@ -270,7 +283,22 @@ const SalesForm = () => {
                         />
                       </td>
                       <td>₹{product.price}</td>
-                      <td>₹{(product.price * item.quantity).toFixed(2)}</td>
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          value={item.discount || 0}
+                          onChange={(e) => {
+                            const newDiscount = parseFloat(e.target.value) || 0;
+                            const updatedItems = [...saleItems];
+                            updatedItems[index].discount = newDiscount;
+                            setSaleItems(updatedItems);
+                          }}
+                          className="form-control"
+                          style={{ width: '100px' }}
+                        />
+                      </td>
+                      <td>₹{itemTotal.toFixed(2)}</td>
                       <td>
                         <button
                           type="button"
@@ -287,6 +315,7 @@ const SalesForm = () => {
                   );
                 })}
               </tbody>
+
             </table>
           </div>
         )}
