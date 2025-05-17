@@ -10,7 +10,6 @@ const Help = () => {
         <p className="lead text-muted">How can we help you today?</p>
       </header>
 
-
       {/* Contact Section */}
       <section className="mb-5">
         <h2 className="mb-4 text-secondary">Contact Us</h2>
