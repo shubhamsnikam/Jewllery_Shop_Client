@@ -17,8 +17,8 @@ const Help = () => {
         <div className="card shadow-sm">
           <div className="card-body">
             <p><strong>Website:</strong> www.varadanalyst.com</p>
-            <p><strong>Phone:</strong> +91 9689655558</p>
-            <p><strong>Address:</strong> Vijaynagar,Sangli 416416</p>
+                <p><strong>Phone:</strong> +91 8446348461</p>
+            <p><strong>Address:</strong> Shivcity center,505,Vijaynagar,Sangli 416416</p>
           </div>
         </div>
       </section>
