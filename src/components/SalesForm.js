@@ -264,7 +264,9 @@ const SalesForm = () => {
                   const product = products.find(p => p._id === item.product);
                   if (!product) return null;
 
-                  const itemTotal = (product.price * item.quantity) - (item.discount || 0);
+                 // Calculate total for item with discount percentage
+                  const discountedPrice = product.price * (1 - ((item.discount || 0) / 100));
+                  const itemTotal = discountedPrice * item.quantity;
 
                   return (
                     <tr key={product._id}>
