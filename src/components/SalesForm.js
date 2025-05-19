@@ -38,9 +38,11 @@ const SalesForm = () => {
   useEffect(() => {
     const total = saleItems.reduce((acc, item) => {
       const product = products.find(p => p._id === item.product);
-      const price = product ? product.price : 0;
-      const discount = item.discount || 0;
-      return acc + ((price * item.quantity) - discount);
+      if (!product) return acc;
+      const price = product.price;
+      const discount = item.discount || 0; // discount in percentage
+      const discountedPrice = price * (1 - discount / 100);
+      return acc + discountedPrice * item.quantity;
     }, 0);
     setTotalAmount(total);
   }, [saleItems, products]);
