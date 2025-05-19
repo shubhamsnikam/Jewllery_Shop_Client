@@ -59,9 +59,9 @@ const InvoicePreview = forwardRef(({ customer = {}, saleItems = [], products = [
             const product = products.find(p => p._id === item.product);
             if (!product) return null;
 
-            const price = product.price || 0;
+           const price = product.price || 0;
             const discount = item.discount || 0;
-            const discountedPrice = ((price * item.quantity) - discount);
+            const discountedPrice = price - (price * discount) / 100;
             const totalPrice = discountedPrice * item.quantity;
 
 
