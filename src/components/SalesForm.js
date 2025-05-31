@@ -36,6 +36,7 @@ const SalesForm = () => {
   }, []);
 
   useEffect(() => {
+     setInvoiceNo('#' + Math.floor(100000 + Math.random() * 900000));
     const total = saleItems.reduce((acc, item) => {
       const product = products.find(p => p._id === item.product);
       if (!product) return acc;
