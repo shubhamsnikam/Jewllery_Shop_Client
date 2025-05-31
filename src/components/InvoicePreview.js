@@ -44,40 +44,38 @@ const InvoicePreview = forwardRef(({ customer = {}, saleItems = [], products = [
       </div>
 
       {/* Product Table */}
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Discount </th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {saleItems.map(item => {
-            const product = products.find(p => p._id === item.product);
-            if (!product) return null;
+ <table className="table table-bordered" style={{ border: '1px solid #000' }}>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Qty</th>
+      <th>Price</th>
+      <th>Discount</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {saleItems.map(item => {
+      const product = products.find(p => p._id === item.product);
+      if (!product) return null;
 
-           const price = product.price || 0;
-            const discount = item.discount || 0;
-            const discountedPrice = price - (price * discount) / 100;
-            const totalPrice = discountedPrice * item.quantity;
+      const price = product.price || 0;
+      const discount = item.discount || 0;
+      const discountedPrice = price - (price * discount) / 100;
+      const totalPrice = discountedPrice * item.quantity;
 
-
-
-            return (
-              <tr key={item.product}>
-                <td>{product.name}</td>
-                <td>{item.quantity}</td>
-                <td>₹{price.toFixed(2)}</td>
-                <td>  {discount} % </td>
-                <td>₹{totalPrice.toFixed(2)}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      return (
+        <tr key={item.product}>
+          <td>{product.name}</td>
+          <td>{item.quantity}</td>
+          <td>₹{price.toFixed(2)}</td>
+          <td>{discount} %</td>
+          <td>₹{totalPrice.toFixed(2)}</td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
 
       {/* Spacer */}
       <div style={{ flexGrow: 1 }} />
