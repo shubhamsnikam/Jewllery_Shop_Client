@@ -135,22 +135,43 @@ const ProductForm = () => {
 
   const generatePDFWithBarcodes = (product) => {
     const canvas = barcodeRefs.current[product._id];
-    if (!canvas) return;
+    if (!canvas || product.quantity <= 0) return;
 
+    const barcodeImage = canvas.toDataURL("image/png");
     const pdf = new jsPDF();
-    const imgData = canvas.toDataURL("image/png");
 
-    pdf.setFontSize(12);
-    pdf.text(`Price: ₹${product.price}`, 10, 20);
-    if (product.manufacturingDate)
-      pdf.text(`MFG Date: ${new Date(product.manufacturingDate).toLocaleDateString()}`, 10, 30);
-    if (product.expiryDate)
-      pdf.text(`EXP Date: ${new Date(product.expiryDate).toLocaleDateString()}`, 10, 40);
+    const columns = 3;
+    const cellWidth = 60;
+    const cellHeight = 50;
+    const marginX = 10;
+    const marginY = 10;
+    const startX = 10;
+    const startY = 10;
 
-    pdf.addImage(imgData, "PNG", 10, 50, 100, 30);
+    for (let i = 0; i < product.quantity; i++) {
+      const col = i % columns;
+      const row = Math.floor(i / columns);
+      const x = startX + col * (cellWidth + marginX);
+      const y = startY + row * (cellHeight + marginY);
 
-    pdf.save(`${product.name}_barcode.pdf`);
+      if (y + cellHeight + marginY > 280) {
+        pdf.addPage();
+        i--; // retry this label on new page
+        continue;
+      }
+
+      pdf.setFontSize(8);
+      pdf.text(`Name: ${product.name}`, x, y + 3);
+      pdf.setFont("helvetica", "normal");
+
+      const cleanPrice = String(product.price).replace(/[^\d.]/g, "");
+      pdf.text(`Price Rs.${cleanPrice}`, x, y + 8);
+      pdf.addImage(barcodeImage, "PNG", x, y + 22, 50, 12);
+    }
+
+    pdf.save(`${product.name}_barcodes.pdf`);
   };
+
 
   const handleBarcodeScan = async (barcode) => {
     try {
